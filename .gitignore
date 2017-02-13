@@ -1,4 +1,7 @@
 config.ini
+authcode.txt
+token.txt
+client_secrets.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
