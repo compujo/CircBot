@@ -15,10 +15,10 @@ token = tokenFile.read()
 
 while (True):
 	
-	liveChatID = 'EiEKGFVDZmhqblk4YVpkaldCMkc1NC1xR1BVZxIFL2xpdmU'
+	liveChatID = config["OAuth"]["liveChatID"]
 	url = 'https://content.googleapis.com/youtube/v3/liveChat/messages?liveChatId='+liveChatID+'&part=snippet,authorDetails&pageToken='+nextPageToken
 	
-	headers = { 'referer' : '', "Authorization": "Bearer "+config["OAuthAcc"]["token"] }
+	headers = { 'referer' : '', "Authorization": "Bearer "+config["OAuth"]["token"] }
 	
 	r = requests.get(url, headers=headers)
 	
