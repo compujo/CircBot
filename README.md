@@ -7,7 +7,7 @@ YouTube LiveStream Chatbot
 2. Add OAuth API credentials, download the JSON file and save it as client_secrets.json in the project folder
 3. Run auth.py ("python auth.py") to get an auth code and token
 4. Depending on the state of the project, you may need to manually get the token from token.txt and put it in config.ini, check the code for where exactly
-5. Get your live chat ID using https://developers.google.com/youtube/v3/live/docs/liveBroadcasts/list and put it in main.py (TODO: simplify this step)
+5. Get your live chat ID using https://developers.google.com/youtube/v3/live/docs/liveBroadcasts/list and put it in config.ini
 6. Run main.py ("python main.py")
 
 
