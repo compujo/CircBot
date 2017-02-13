@@ -33,4 +33,7 @@ while (True):
 	for msg in msgs:
 		print '<'+msg["authorDetails"]["displayName"]+'> '+msg["snippet"]["displayMessage"]
 	
-	time.sleep(5)
+	delay_ms = resp['pollingIntervalMillis']
+	delay = float(float(delay_ms)/1000)
+	
+	time.sleep(delay)
