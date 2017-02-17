@@ -21,11 +21,15 @@ if __name__ == '__main__':
 
 	credentials = flow.step2_exchange(auth_code)
 	http_auth = credentials.authorize(httplib2.Http())
-  
+
+	outFile = open("OAuthCredentials.json","w")
+	outFile.write(str(credentials.to_json()))
+	outFile.close()
+
 	outFile = open("authcode.txt","w")
 	outFile.write(auth_code)
 	outFile.close()
-	
+
 	outFile = open("token.txt","w")
 	outFile.write(str(credentials.get_access_token()))
 	outFile.close()
