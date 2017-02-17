@@ -1,4 +1,5 @@
 import sys
+import os.path
 import json
 import time
 import configparser
@@ -14,6 +15,11 @@ config.read('config.ini')
 debug = config["Settings"]["debug"]
 
 # Authenticate
+
+if (not os.path.isfile("OAuthCredentials.json")):
+	#print "Please run auth.py first to obtain credentials"
+	#sys.exit(1)
+	import auth
 
 credentialsFile = open("OAuthCredentials.json","r")
 credentialsJSON = credentialsFile.read()
