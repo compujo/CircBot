@@ -13,6 +13,19 @@ from oauth2client import client
 config = configparser.ConfigParser()
 config.read('config.ini')
 
+with open("config.json") as jsonFile:
+	configJSON = json.load(jsonFile)
+
+# Message handler
+def handle_msg(msg):
+	wlWords = configJSON["whitelistFilter"]
+	for word in wlWords:
+		if word in msg["snippet"]["displayMessage"]:
+			print '<'+msg["authorDetails"]["displayName"]+'> '+msg["snippet"]["displayMessage"]
+			return
+
+
+
 debug = int(config["Settings"]["debug"])
 
 # Authenticate
@@ -63,7 +76,7 @@ while (True):
 
 		for msg in msgs:
 			#Message handling
-			print '<'+msg["authorDetails"]["displayName"]+'> '+msg["snippet"]["displayMessage"]
+			handle_msg(msg)
 
 		delay_ms = resp['pollingIntervalMillis']
 		delay = float(float(delay_ms)/1000)
