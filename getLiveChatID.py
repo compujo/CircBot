@@ -31,7 +31,7 @@ def get_livechat_id():
 
 	if (r.status_code == 200):
 		resp = r.json()
-		if (len(resp["items"]) < 0):
+		if (len(resp["items"]) <= 0):
 			return False
 		else:
 			# Success, get the id and save
