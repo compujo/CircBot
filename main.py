@@ -4,6 +4,7 @@ import json
 import time
 import configparser
 import requests
+import getLiveChatID
 
 #OAuth2 libs
 import httplib2
@@ -12,38 +13,38 @@ from oauth2client import client
 config = configparser.ConfigParser()
 config.read('config.ini')
 
-debug = config["Settings"]["debug"]
+debug = int(config["Settings"]["debug"])
 
 # Authenticate
 
 if (not os.path.isfile("OAuthCredentials.json")):
-	#print "Please run auth.py first to obtain credentials"
-	#sys.exit(1)
 	import auth
 
 credentialsFile = open("OAuthCredentials.json","r")
 credentialsJSON = credentialsFile.read()
 
 credentials = client.OAuth2Credentials.from_json(credentialsJSON)
-http_auth = credentials.authorize(httplib2.Http())
 
 token_obj = credentials.get_access_token()
 token_str = str(token_obj.access_token)
 
 nextPageToken = ''
-liveChatID = config["Stream"]["liveChatID"]
+liveChatID = getLiveChatID.get_livechat_id()
+if (liveChatID == False):
+	print("No livestream found :(")
+	sys.exit(1)
 
 while (True):
 
 	# Make sure access token is valid before request
 	if (credentials.access_token_expired):
-		# access token expired, get a new one
+		# Access token expired, get a new one
 		token_obj = credentials.get_access_token() #get_access_token() should refresh the token automatically
 		token_str = str(token_obj.access_token)
 
 	url = 'https://content.googleapis.com/youtube/v3/liveChat/messages?liveChatId='+liveChatID+'&part=snippet,authorDetails&pageToken='+nextPageToken
 
-	headers = { 'referer' : '', "Authorization": "Bearer "+token_str }
+	headers = { "Authorization": "Bearer "+token_str }
 
 	r = requests.get(url, headers=headers)
 
@@ -68,7 +69,7 @@ while (True):
 		delay = 10
 
 		if (credentials.access_token_expired):
-			#access token expired, get a new one
+			# Access token expired, get a new one
 			if (debug >= 1):
 				print "Access token expired, obtaining a new one"
 
