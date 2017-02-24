@@ -15,6 +15,27 @@ config.read('config.ini')
 
 debug = int(config["Settings"]["debug"])
 
+with open("config.json") as jsonFile:
+	configJSON = json.load(jsonFile)
+
+# Message handler
+def handle_msg(msg):
+	if (configJSON["echoMode"] == "whitelist"):
+		wlWords = configJSON["whitelistFilter"]
+		for word in wlWords:
+			if word in msg["snippet"]["displayMessage"]:
+				try:
+					print(('<'+msg["authorDetails"]["displayName"]+'> '+msg["snippet"]["displayMessage"]).encode('utf-8'))
+				except:
+					print('Couldn\'t display a message, skipped.')
+				return
+	elif (configJSON["echoMode"] == "all"):
+		try:
+			print(('<'+msg["authorDetails"]["displayName"]+'> '+msg["snippet"]["displayMessage"]).encode('utf-8'))
+		except:
+			print('Couldn\'t display a message, skipped.')
+		return
+
 # Authenticate
 
 if (not os.path.isfile("OAuthCredentials.json")):
@@ -63,7 +84,7 @@ while (True):
 
 		for msg in msgs:
 			#Message handling
-			print '<'+msg["authorDetails"]["displayName"]+'> '+msg["snippet"]["displayMessage"]
+			handle_msg(msg)
 
 		delay_ms = resp['pollingIntervalMillis']
 		delay = float(float(delay_ms)/1000)
