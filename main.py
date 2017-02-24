@@ -10,6 +10,9 @@ import getLiveChatID
 import httplib2
 from oauth2client import client
 
+VERSION = "0.3.2"
+PYTHONIOENCODING="UTF-8"
+
 config = configparser.ConfigParser()
 config.read('config.ini')
 
@@ -25,14 +28,14 @@ def handle_msg(msg):
 		for word in wlWords:
 			if word in msg["snippet"]["displayMessage"]:
 				try:
-					print(('<'+msg["authorDetails"]["displayName"]+'> '+msg["snippet"]["displayMessage"]).encode('utf-8'))
-				except:
+					print(('<'+msg["authorDetails"]["displayName"]+'> '+msg["snippet"]["displayMessage"]).encode('utf-8',"ignore"))
+				except UnicodeEncodeError:
 					print('Couldn\'t display a message, skipped.')
 				return
 	elif (configJSON["echoMode"] == "all"):
 		try:
-			print(('<'+msg["authorDetails"]["displayName"]+'> '+msg["snippet"]["displayMessage"]).encode('utf-8'))
-		except:
+			print(('<'+msg["authorDetails"]["displayName"]+'> '+msg["snippet"]["displayMessage"]).encode('utf-8', "ignore"))
+		except UnicodeEncodeError:
 			print('Couldn\'t display a message, skipped.')
 		return
 
@@ -41,6 +44,9 @@ def handle_msg(msg):
 if (not os.path.isfile("OAuthCredentials.json")):
 	import auth
 	os.system('cls')
+
+os.system('cls')
+print("Welcome to Circbot v"+VERSION+"!")
 
 credentialsFile = open("OAuthCredentials.json","r")
 credentialsJSON = credentialsFile.read()
