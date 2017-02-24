@@ -15,7 +15,7 @@ YouTube LiveStream Chatbot
 # Related Documentaion and Links
 https://developers.google.com/youtube/v3/live/docs/liveChatMessages
 https://developers.google.com/youtube/v3/live/docs/liveBroadcasts/list
-https://developers.google.com/youtube/v3/live/getting-started
+https://developers.google.com/youtube/v3/live/getting-started  
 https://developers.google.com/api-client-library/python/auth/installed-app
 
 http://docs.python-requests.org/en/latest/user/quickstart/
