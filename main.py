@@ -13,20 +13,28 @@ from oauth2client import client
 config = configparser.ConfigParser()
 config.read('config.ini')
 
+debug = int(config["Settings"]["debug"])
+
 with open("config.json") as jsonFile:
 	configJSON = json.load(jsonFile)
 
 # Message handler
 def handle_msg(msg):
-	wlWords = configJSON["whitelistFilter"]
-	for word in wlWords:
-		if word in msg["snippet"]["displayMessage"]:
-			print '<'+msg["authorDetails"]["displayName"]+'> '+msg["snippet"]["displayMessage"]
-			return
-
-
-
-debug = int(config["Settings"]["debug"])
+	if (configJSON["echoMode"] == "whitelist"):
+		wlWords = configJSON["whitelistFilter"]
+		for word in wlWords:
+			if word in msg["snippet"]["displayMessage"]:
+				try:
+					print(('<'+msg["authorDetails"]["displayName"]+'> '+msg["snippet"]["displayMessage"]).encode('utf-8'))
+				except:
+					print('Couldn\'t display a message, skipped.')
+				return
+	elif (configJSON["echoMode"] == "all"):
+		try:
+			print(('<'+msg["authorDetails"]["displayName"]+'> '+msg["snippet"]["displayMessage"]).encode('utf-8'))
+		except:
+			print('Couldn\'t display a message, skipped.')
+		return
 
 # Authenticate
 
