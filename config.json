@@ -1,4 +1,5 @@
 {
 	"debug":0,
-	"whitelistFilter":["[Q]","[q]"]
+	"echoMode":"whitelist",
+	"whitelistFilter":["[Q]","[q]","{Q}","{q}"]
 }
